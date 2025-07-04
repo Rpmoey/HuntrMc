@@ -10,10 +10,16 @@
       background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
       font-family: 'Cairo', sans-serif;
       color: #2e7d32;
-      background-image: url('https://raw.githubusercontent.com/othneildrew/Best-README-Template/master/images/minecraft-grass.png');
-      background-position: bottom right;
+      background-image: url('https://i.gifer.com/7efs.gif');
+      background-position: center center;
       background-repeat: no-repeat;
-      background-size: 200px;
+      background-size: cover;
+      animation: fadeBg 20s linear infinite alternate;
+    }
+
+    @keyframes fadeBg {
+      0% { opacity: 0.9; }
+      100% { opacity: 1; }
     }
 
     .navbar, footer {
