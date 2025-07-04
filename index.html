@@ -76,14 +76,28 @@
   </style>
   <script>
     function openForm(rank) {
-      const name = prompt("اكتب اسم حسابك في ماينكرافت:");
+      const name = prompt("ما اسم حسابك في ماينكرافت؟");
       if (!name) return;
-      const proof = prompt("ارسل رقم إثبات التحويل أو اي ملاحظة:");
-      if (!proof) return;
-      const msg = `طلب جديد لرتبة ${rank}%0Aاسم الحساب: ${name}%0Aإثبات التحويل: ${proof}`;
-      const phone = "201017234807";
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-      window.location.href = "https://discord.gg/huntrmc";
+
+      const method = prompt("ما طريقة الدفع التي استخدمتها؟");
+      if (!method) return;
+
+      const item = rank;
+
+      const msg = `طلب جديد من متجر HuntrMC:\n- الاسم: ${name}\n- الدفع: ${method}\n- الرتبة: ${item}`;
+      const webhook = "https://discord.com/api/webhooks/1390713081037852703/q8nz_2N3_LmJyiACh9pU1G01BXsqS5cCxxMyGfmqik4P7mWJQY-YQnlvHpCK6mzQ4Mm0"; // <-- غيّره بالرابط الخاص بك
+
+      fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: msg
+        })
+      }).then(() => {
+        window.location.href = "https://discord.gg/huntrmc";
+      }).catch(() => {
+        alert("حدث خطأ أثناء إرسال البيانات، يرجى المحاولة لاحقًا.");
+      });
     }
   </script>
 </head>
