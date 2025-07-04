@@ -19,16 +19,21 @@
     }
     header {
       background-color: rgba(255, 255, 255, 0.95);
+      color: #2e7d32;
       border-radius: 12px;
-      text-align: center;
-      padding: 40px;
-      margin-top: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .card {
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       border: none;
       background-color: rgba(255, 255, 255, 0.95);
       transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     .card:hover {
       transform: scale(1.05);
@@ -37,11 +42,27 @@
     .card.vipplus h3 { color: #DAA520; }
     .card.mvp h3 { color: #2196F3; }
     .card.mvpplus h3 { color: #0D47A1; }
-    .card.huntr h3 { color: #43A047; font-weight: bold; }
-    .card.huntrplus h3 { color: #1B5E20; font-weight: bold; }
-    .price { font-size: 1.5rem; font-weight: bold; color: #1b5e20; }
-    .credit { color: #555; }
-
+    .card.huntr h3 {
+      color: #43A047;
+      font-size: 1.75rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #00000022;
+    }
+    .card.huntrplus h3 {
+      color: #1B5E20;
+      font-size: 1.85rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #00000044;
+    }
+    .price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1b5e20;
+    }
+    .credit {
+      font-size: 1rem;
+      color: #4e4e4e;
+    }
     .buy-btn {
       background: linear-gradient(45deg, #43a047, #66bb6a);
       color: white;
@@ -51,39 +72,58 @@
       font-weight: bold;
       border-radius: 30px;
       transition: all 0.3s ease-in-out;
-      animation: pulse 1.5s infinite;
     }
     .buy-btn:hover {
       transform: scale(1.1);
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+      background: linear-gradient(45deg, #66bb6a, #43a047);
     }
 
-    section {
-      background-color: rgba(255,255,255,0.95);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 30px;
+    /* Lightning Effect */
+    .lightning::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(white, rgba(255,255,255,0));
+      animation: flash 0.5s ease-in-out;
+      pointer-events: none;
     }
+    @keyframes flash {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
     footer {
       text-align: center;
       padding: 15px;
       margin-top: 30px;
     }
+
+    section {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      animation: fadeIn 2s ease-in-out;
+    }
   </style>
+
   <script>
     let lastSubmit = 0;
 
-    function openForm(rank) {
+    function openForm(rank, el) {
       const now = Date.now();
       if (now - lastSubmit < 10000) {
-        alert("يرجى الانتظار قليلًا قبل إعادة الإرسال.");
+        alert("الرجاء الانتظار قليلاً قبل إعادة الإرسال.");
         return;
       }
       lastSubmit = now;
+
+      // Animation lightning
+      el.classList.add("lightning");
+      setTimeout(() => el.classList.remove("lightning"), 600);
 
       const name = prompt("ما اسم حسابك في ماينكرافت؟");
       if (!name) return;
@@ -91,15 +131,15 @@
       const method = prompt("ما طريقة الدفع التي استخدمتها؟");
       if (!method) return;
 
-      const embed = {
+      const msg = {
         embeds: [
           {
-            title: "🛒 طلب جديد من متجر HuntrMC",
+            title: "🛒 طلب جديد في متجر HuntrMC",
             color: 0x2ecc71,
             fields: [
-              { name: "👤 اسم الحساب", value: name, inline: false },
+              { name: "👤 الاسم", value: name, inline: false },
               { name: "💳 طريقة الدفع", value: method, inline: false },
-              { name: "🎖️ الرتبة", value: rank, inline: false }
+              { name: "🎖️ الرتبة المطلوبة", value: rank, inline: false }
             ],
             footer: { text: "HuntrMC" },
             timestamp: new Date().toISOString()
@@ -107,22 +147,22 @@
         ]
       };
 
-      const webhook = "https://discord.com/api/webhooks/1390713081037852703/q8nz_2N3_LmJyiACh9pU1G01BXsqS5cCxxMyGfmqik4P7mWJQY-YQnlvHpCK6mzQ4Mm0"; // غيّر الرابط
+      const webhook = "https://discord.com/api/webhooks/1390713081037852703/q8nz_2N3_LmJyiACh9pU1G01BXsqS5cCxxMyGfmqik4P7mWJQY-YQnlvHpCK6mzQ4Mm0";
 
       fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(embed)
+        body: JSON.stringify(msg)
       }).then(() => {
         window.location.href = "https://discord.gg/huntrmc";
       }).catch(() => {
-        alert("حدث خطأ أثناء إرسال البيانات.");
+        alert("حدث خطأ أثناء إرسال البيانات، يرجى المحاولة لاحقًا.");
       });
     }
   </script>
 </head>
-<body>
 
+<body>
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <a class="navbar-brand" href="#">HuntrMC</a>
@@ -134,7 +174,7 @@
     </div>
   </nav>
 
-  <header>
+  <header class="text-center p-5 container mt-4">
     <h1>مرحباً بك في متجر HuntrMC الرسمي</h1>
     <p>قم بشراء رتبك المفضلة الآن بكل سهولة!</p>
   </header>
@@ -142,54 +182,62 @@
   <section class="container text-center" id="buy">
     <h2 class="mb-4">الرتب المتاحة</h2>
     <div class="row g-4">
+
+      <!-- Rank Cards -->
       <div class="col-md-4">
         <div class="card p-3 vip">
           <h3>VIP</h3>
           <p class="price">200 جنيه | 6 ريال</p>
-          <p class="credit">150M كريديت</p>
-          <button onclick="openForm('VIP')" class="buy-btn">شراء</button>
+          <p class="credit">150M كريديت ديسكورد</p>
+          <button onclick="openForm('VIP', this)" class="buy-btn mt-2">شراء</button>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="card p-3 vipplus">
           <h3>VIP+</h3>
           <p class="price">400 جنيه | 10 ريال</p>
-          <p class="credit">210M كريديت</p>
-          <button onclick="openForm('VIP+')" class="buy-btn">شراء</button>
+          <p class="credit">210M كريديت ديسكورد</p>
+          <button onclick="openForm('VIP+', this)" class="buy-btn mt-2">شراء</button>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="card p-3 mvp">
           <h3>MVP</h3>
           <p class="price">550 جنيه | 15 ريال</p>
-          <p class="credit">350M كريديت</p>
-          <button onclick="openForm('MVP')" class="buy-btn">شراء</button>
+          <p class="credit">350M كريديت ديسكورد</p>
+          <button onclick="openForm('MVP', this)" class="buy-btn mt-2">شراء</button>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="card p-3 mvpplus">
           <h3>MVP+</h3>
           <p class="price">850 جنيه | 20 ريال</p>
-          <p class="credit">450M كريديت</p>
-          <button onclick="openForm('MVP+')" class="buy-btn">شراء</button>
+          <p class="credit">450M كريديت ديسكورد</p>
+          <button onclick="openForm('MVP+', this)" class="buy-btn mt-2">شراء</button>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="card p-3 huntr">
           <h3>HUNTR</h3>
           <p class="price">1100 جنيه | 32 ريال</p>
-          <p class="credit">650M كريديت</p>
-          <button onclick="openForm('HUNTR')" class="buy-btn">شراء</button>
+          <p class="credit">650M كريديت ديسكورد</p>
+          <button onclick="openForm('HUNTR', this)" class="buy-btn mt-2">شراء</button>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="card p-3 huntrplus">
           <h3>HUNTR+</h3>
           <p class="price">2000 جنيه | 45 ريال</p>
-          <p class="credit">900M كريديت</p>
-          <button onclick="openForm('HUNTR+')" class="buy-btn">شراء</button>
+          <p class="credit">900M كريديت ديسكورد</p>
+          <button onclick="openForm('HUNTR+', this)" class="buy-btn mt-2">شراء</button>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -197,7 +245,7 @@
     <h2 class="text-center mb-3">طرق الدفع والتواصل</h2>
     <ul>
       <li>الدفع عبر الراجحي / STC Pay / URPay / فودافون كاش</li>
-      <li>أرسل إثبات الدفع إلى ديسكوردنا:</li>
+      <li>أرسل إثبات الدفع مع اسم حسابك إلى ديسكوردنا:</li>
       <li><strong><a href="https://discord.gg/huntrmc" target="_blank">discord.gg/huntrmc</a></strong></li>
     </ul>
   </section>
@@ -205,15 +253,15 @@
   <section class="container" id="terms">
     <h2 class="text-center mb-3">الشروط والأحكام</h2>
     <ul>
-      <li>التسليم خلال 24 ساعة بعد التأكيد.</li>
-      <li>يجب إرسال إثبات الدفع واضح.</li>
-      <li>لا يمكن استرجاع المبلغ بعد الدفع.</li>
+      <li>تسليم الرتبة يتم خلال مدة أقصاها 24 ساعة بعد التأكيد.</li>
+      <li>يجب إرسال إثبات الدفع بشكل واضح.</li>
+      <li>لا يُسمح بإرجاع الأموال بعد تأكيد الشراء.</li>
+      <li>يرجى عدم إرسال بيانات خاطئة أو مزيفة.</li>
     </ul>
   </section>
 
   <footer>
     <p>جميع الحقوق محفوظة &copy; HuntrMC - متجر الرتب</p>
   </footer>
-
 </body>
 </html>
