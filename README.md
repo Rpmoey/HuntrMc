@@ -1,2 +1,2 @@
-# HuntrMc
+# store/huntrmc/
 Shop
