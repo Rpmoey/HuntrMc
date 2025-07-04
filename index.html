@@ -7,23 +7,42 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #eafaf1;
+      background: url('https://i.imgur.com/GjVUGEV.jpg') no-repeat center center fixed;
+      background-size: cover;
       font-family: 'Cairo', sans-serif;
+      color: #fff;
     }
     .navbar, footer {
-      background-color: #2e7d32;
+      background-color: rgba(46, 125, 50, 0.9);
     }
     .navbar-brand, .nav-link, footer {
       color: white !important;
     }
+    header {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #2e7d32;
+      border-radius: 12px;
+    }
     .card {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       border: none;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #2e7d32;
     }
     .price {
       font-size: 1.5rem;
       font-weight: bold;
       color: #1b5e20;
+    }
+    .credit {
+      font-size: 1rem;
+      color: #4e4e4e;
+    }
+    section {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
     }
     footer {
       text-align: center;
@@ -44,7 +63,8 @@
     </div>
   </nav>
 
-  <header class="text-center p-5">
+  <header class="text-center p-5 container mt-4">
+    <img src="/mnt/data/e07a0f95958492049a4f7a67e787f73a.webp" width="120" class="mb-3" alt="HuntrMC Logo">
     <h1>مرحباً بك في متجر HuntrMC الرسمي</h1>
     <p>قم بشراء رتبك المفضلة الآن بكل سهولة!</p>
   </header>
@@ -56,42 +76,48 @@
         <div class="card p-3">
           <h3>VIP</h3>
           <p class="price">200 جنيه | 6 ريال</p>
+          <p class="credit">150M كريديت ديسكورد</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-3">
           <h3>VIP+</h3>
           <p class="price">400 جنيه | 10 ريال</p>
+          <p class="credit">210M كريديت ديسكورد</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-3">
           <h3>MVP</h3>
           <p class="price">550 جنيه | 15 ريال</p>
+          <p class="credit">350M كريديت ديسكورد</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-3">
           <h3>MVP+</h3>
           <p class="price">850 جنيه | 20 ريال</p>
+          <p class="credit">450M كريديت ديسكورد</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-3">
           <h3>HUNTR</h3>
           <p class="price">1100 جنيه | 32 ريال</p>
+          <p class="credit">650M كريديت ديسكورد</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-3">
           <h3>HUNTR+</h3>
           <p class="price">2000 جنيه | 45 ريال</p>
+          <p class="credit">900M كريديت ديسكورد</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="container mt-5" id="contact">
+  <section class="container" id="contact">
     <h2 class="text-center mb-3">طرق الدفع والتواصل</h2>
     <ul>
       <li>الدفع عبر الراجحي / STC Pay / URPay / فودافون كاش</li>
@@ -100,7 +126,7 @@
     </ul>
   </section>
 
-  <section class="container mt-5" id="terms">
+  <section class="container" id="terms">
     <h2 class="text-center mb-3">الشروط والأحكام</h2>
     <ul>
       <li>تسليم الرتبة يتم خلال مدة أقصاها 24 ساعة بعد التأكيد.</li>
